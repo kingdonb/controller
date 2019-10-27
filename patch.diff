@@ -1,0 +1,57 @@
+# git log -u
+commit c7a1f3b90ab9ca01c26e68fcb155d38fb1230c52 (HEAD -> master)
+Author: Kingdon B <kingdon@teamhephy.com>
+Date:   Sun Oct 27 04:09:57 2019 +0000
+
+    fix(controller): not ready - experimental native ingress
+
+diff --git a/workflow/charts/controller/templates/controller-ingress-rule-http-80.yaml b/workflow/charts/controller/templates/controller-ingress-rule-http-80.yaml
+index 34ef1a1..509eca5 100644
+--- a/workflow/charts/controller/templates/controller-ingress-rule-http-80.yaml
++++ b/workflow/charts/controller/templates/controller-ingress-rule-http-80.yaml
+@@ -1,5 +1,5 @@
+ {{ if .Values.global.experimental_native_ingress }}
+-apiVersion: {{ .Values.global.api_group }}
++apiVersion: extensions/v1beta1
+ kind: Ingress
+ metadata:
+   namespace: "{{ .Release.Namespace }}"
+
+commit 1ba89d279c51a01b805a53c89b3fd2476c87ea06
+Author: Kingdon B <kingdon@teamhephy.com>
+Date:   Sun Oct 27 03:14:06 2019 +0000
+
+    first stab
+
+diff --git a/workflow/charts/builder/templates/builder-deployment.yaml b/workflow/charts/builder/templates/builder-deployment.yaml
+index e525fb6..66ea22f 100644
+--- a/workflow/charts/builder/templates/builder-deployment.yaml
++++ b/workflow/charts/builder/templates/builder-deployment.yaml
+@@ -1,4 +1,4 @@
+-apiVersion: extensions/v1beta1
+root@k8s-1-16-2-nyc1-01:~/git/workflow# git diff -u
+diff --git a/workflow/values.yaml b/workflow/values.yaml
+index ed0a19e..7ba009a 100644
+--- a/workflow/values.yaml
++++ b/workflow/values.yaml
+@@ -56,9 +56,9 @@ global:
+   # Valid values are:
+   # - true: deis-router will not be deployed. Workflow will not be usable until a Kubernetes ingress controller is installed.
+   # - false: deis-router will be deployed (default).
+-  experimental_native_ingress: false
++  experimental_native_ingress: true
+   # If the Kubernetes cluster uses CNI
+-  # use_cni: true
++  use_cni: true
+   # Set the `listen` variable for registry-proxy's NGINX
+   #
+   # Valid values are:
+@@ -73,7 +73,7 @@ global:
+   # Valid values are:
+   # - true: all RBAC-related manifests will be installed (in case your cluster supports RBAC)
+   # - false: no RBAC-related manifests will be installed
+-  use_rbac: false
++  use_rbac: true
+
+   # Select API groups to use in component charts
+   #
